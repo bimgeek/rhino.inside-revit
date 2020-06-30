@@ -17,6 +17,8 @@ import os
 import os.path as op
 import re
 import subprocess
+import logging
+import time
 
 # pipenv dependencies
 from docopt import docopt
@@ -224,7 +226,7 @@ def run_revit(cfg: CLIArgs, journal_file):
     subprocess.run(list(opts))
 
 
-def run_command(cfg: CLIArgs):
+def run_command(cfg: CLIArgs, wait_until=None):
     """Orchestrate execution using command line options"""
     # prepare cache -------------------
     cache_dir = prepare_cache()
@@ -257,5 +259,5 @@ if __name__ == "__main__":
         )
     # gracefully handle exceptions and print results
     except Exception as run_ex:
-        print(str(run_ex))
+        logging.critical(run_ex)
         sys.exit(1)
